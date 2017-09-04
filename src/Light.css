@@ -1,0 +1,107 @@
+*{
+    padding:0;
+    margin:0;
+}
+
+
+.l_container .header{
+    height:6rem;
+    background-color: #292b3a;
+}
+.l_container .header .header_img{
+    display:flex;
+    justify-content:center;
+}
+.l_container .header img{
+    width:1.176rem;
+    height:1.677rem;
+    margin-top:1.03rem;
+}
+.l_container .header .header_button{
+    font-size: 0.43rem;
+    color:#fff;
+    font-weight: 300;
+    display:flex;
+    justify-content:space-between;
+    margin:1.12rem 1.2rem 0 1.2rem;
+}
+.l_container .header .header_button span{
+    display:inline-block;
+    padding:0.24rem 0.88rem;
+    background-color: #ff5a60;
+    -webkit-border-radius:1.2rem;
+    -moz-border-radius:1.2rem;
+    border-radius:1.2rem;
+}
+
+.l_nav{
+    padding:0.27rem 0.4rem 0 0.4rem;
+    font-size: 0.427rem;
+    color: #2c2c2c;
+    width:100%;
+    position: relative;
+    overflow-x:auto;
+    display: inline-block;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+.l_nav::-webkit-scrollbar {
+    display: none;
+}
+.l_nav ul{
+    display:flex;
+    justify-content:space-between;
+    margin-top:0.28rem;
+}
+.l_nav ul li{
+    list-style-type:none;
+    margin-right:0.72rem;
+    padding-bottom:0.29rem;
+}
+
+.l_subnav{
+    margin:0.91rem 0.4rem 0 0.4rem;
+    display:flex;
+    justify-content:space-between;
+}
+.l_subnav .subnav_l{
+    font-size:0.43rem;
+    color: #333844;
+}
+.l_subnav .subnav_r{
+    font-size:0.37rem;
+    color:#ff5a60;
+}
+.l_subnav .subnav_r span{
+    padding:0.133rem 0.266rem;
+    border:solid 1px #ff5a60;
+    -webkit-border-radius:0.83rem;
+    -moz-border-radius:0.83rem;
+    border-radius:0.83rem;
+    margin-left:0.56rem;
+}
+
+.l_content{
+    margin:0.85rem 0.4rem 0 0.4rem;
+    font-size:0.37rem;
+    color: #333844;
+}
+.l_content .single_switch{
+    height:1.73rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.l_content .single_switch .single_l{
+    display:flex;
+    align-items:center;
+}
+.l_content .single_switch .single_l span:nth-child(1){
+    width:0.67rem;
+    height:0.67rem;
+    border:1px solid;
+}
+.l_content .single_switch .single_r{
+    width:0.67rem;
+    height:0.67rem;
+}

@@ -86,11 +86,16 @@ class Light extends Component {
     this.updateAllLight(nextStatus, {
       controller_id : item.controller_id
     }).then(json => {
-      this.setState({
+      let params = {
         dataList: newList,
         currentArea : newList[currentAreaIndex]
-      })
+      }
+      if (nextStatus === 'on') {
+        params.mainSwitch = 'on'
+      }
+      this.setState(params)
     })
+    
   }
 
 
@@ -193,7 +198,12 @@ class Light extends Component {
     const { currentArea } = this.state
     this.updateAllLight('on', {
       area_id : currentArea.id
-    }).then(this.updateAreaAll.bind(null, 'on'))
+    }).then(() => {
+      this.updateAreaAll.bind(null, 'on')
+      this.setState({
+        mainSwitch : 'on'
+      })
+    })
   }
 
   closeAreaAll () {

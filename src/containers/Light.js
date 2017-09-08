@@ -16,13 +16,14 @@ class Light extends Component {
     this.closeAreaAll = this.closeAreaAll.bind(this)
     this.updateAreaAll = this.updateAreaAll.bind(this)
     this.changeLightStatus = this.changeLightStatus.bind(this)
+    this.isOffLightStatus = this.isOffLightStatus.bind(this)
     this.state = {
       currentAreaIndex : 0,
       l_index:0,
       dataList:[],
       currentArea : {},
       // 总开关 默认是关闭， 用这个来管理一键开启和关闭
-      mainSwitch : 'off'
+      mainSwitch : 'off',
     }
   }
 
@@ -76,6 +77,26 @@ class Light extends Component {
     })
   }
 
+  isOffLightStatus (dataList) {
+    let isOff = true
+
+    dataList.forEach(json => {
+      if (!isOff) {
+        return
+      }
+      json.lightList.forEach(light => {
+        if (!isOff) {
+          return
+        }
+        if (light.status === 'on') {
+          isOff = false
+        }
+      })
+    })
+
+    return isOff
+  }
+
   changeLightStatus (item, index) {
     const nextStatus = item.status === 'on' ? 'off' : 'on'
     const { dataList, currentAreaIndex } = this.state
@@ -93,9 +114,13 @@ class Light extends Component {
       if (nextStatus === 'on') {
         params.mainSwitch = 'on'
       }
+
+      if (nextStatus === 'off' && this.isOffLightStatus(newList)) {
+        params.mainSwitch = 'off'
+      }
+
       this.setState(params)
     })
-    
   }
 
 
@@ -118,14 +143,11 @@ class Light extends Component {
       return (
         <div className="single_switch" key={ index }>
             <div className="single_l">
-              <span><img src="" alt=""/></span>
+              <span><img src="https://media-ssl.kuban.io/static/wechat/images/light/img_icon_line@3x.png" alt=""/></span>
               <span>{ item.name }</span>
             </div>
             <div className="single_r" onClick={ this.changeLightStatus.bind(null, item, index) }>
-              {
-                item.status
-              }
-              <img src="https://media-ssl.kuban.io/static/h5/images/icon_switch%20down@1x.png" alt=""/>
+              <img src={'https://media-ssl.kuban.io/static/h5/images/icon_switch%20'+(item.status === 'on'?'up':'down')+'@1x.png'} alt=""/>
             </div>
         </div>
       )
@@ -183,15 +205,19 @@ class Light extends Component {
     const { dataList, currentAreaIndex } = this.state
     let newList = dataList.slice()
     let newCurrentArea = newList[currentAreaIndex]
-
+    let params = {}
     newCurrentArea.lightList = newCurrentArea.lightList.map(light => {
       light.status = type
       return light
     })
 
-    this.setState({
-      dataList : newList
-    })
+    params.dataList = newList
+
+    if (type === 'off' && this.isOffLightStatus(newList)) {
+      params.mainSwitch = 'off'
+    }
+
+    this.setState(params)
   }
 
   openAreaAll () {
@@ -199,7 +225,8 @@ class Light extends Component {
     this.updateAllLight('on', {
       area_id : currentArea.id
     }).then(() => {
-      this.updateAreaAll.bind(null, 'on')
+      this.updateAreaAll('on')
+    }).then(() => {
       this.setState({
         mainSwitch : 'on'
       })
@@ -219,7 +246,9 @@ class Light extends Component {
     return (
       <div className="l_container">
         <div className="header">
-          <div className="header_img"><img src="https://media-ssl.kuban.io/static/h5/images/img-icon-down@1x.png" alt=""/>{ mainSwitch === 'off' ? '关灯状态' : '开灯状态' }</div>
+          <div className="header_img">
+            <img src={'https://media-ssl.kuban.io/static/h5/images/img-icon-'+(mainSwitch === 'off' ?'down':'up')+'@3x.png'} alt="" className={mainSwitch === 'off'?'l_off':'l_on'}/>
+          </div>
           <div className="header_button">
             <span onClick={ this.openAll }>一键开启</span>
             <span onClick={ this.closeAll }>一键关闭</span>
